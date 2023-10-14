@@ -6,8 +6,12 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-
-
+using PruebaIngresoBibliotecario.Api.Infraestructure;
+using AutoMapper;
+using PruebaIngresoBibliotecario.Api.Application.Contracts;
+using PruebaIngresoBibliotecario.Api.Application.Services;
+using PruebaIngresoBibliotecario.Api.Domain.Contracts;
+using PruebaIngresoBibliotecario.Api.Domain.Services;
 
 namespace PruebaIngresoBibliotecario.Api
 {
@@ -27,8 +31,11 @@ namespace PruebaIngresoBibliotecario.Api
         {
 
             services.AddSwaggerDocument();
+            services.AddTransient<IPrestamoAppService, PrestamoAppService>();
+            services.AddTransient<IPrestamoDomainService, PrestamoDomainService>();
+            services.AddAutoMapper(typeof(Startup));
 
-            services.AddDbContext<Infrastructure.PersistenceContext>(opt =>
+            services.AddDbContext<PersistenceContext>(opt =>
             {
                 opt.UseInMemoryDatabase("PruebaIngreso");
             });
